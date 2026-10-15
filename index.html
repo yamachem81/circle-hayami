@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>サークル早見表</title>
+
+
+<style>
+:root {
+    font-family: system-ui, 'Yu Gothic', sans-serif;
+    color: #243247;
+    background: #f5f7fa;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+.wrap {
+    max-width: 720px;
+    margin: auto;
+    padding: 18px;
+}
+
+header {
+    background: #245d91;
+    color: white;
+    padding: 24px 18px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+header p {
+    font-size: 1.15rem;
+    margin: 8px 0 0;
+}
+
+header svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* 画像を使わないCSSアイコン */
+
+.detail {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.css-icon {
+    display: inline-block;
+    position: relative;
+    flex: none;
+    width: 30px;
+    height: 30px;
+}
+
+/* 時計アイコン */
+
+.clock-icon {
+    border: 3px solid #245d91;
+    border-radius: 50%;
+}
+
+.clock-icon::before {
+    content: "";
+    position: absolute;
+    width: 3px;
+    height: 9px;
+    background: #245d91;
+    left: 11px;
+    top: 4px;
+    border-radius: 2px;
+}
+
+.clock-icon::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 3px;
+    background: #245d91;
+    left: 11px;
+    top: 12px;
+    border-radius: 2px;
+    transform: rotate(25deg);
+    transform-origin: left center;
+}
+
+/* 会場アイコン */
+
+.place-icon::before {
+    content: "";
+    position: absolute;
+    width: 23px;
+    height: 23px;
+    left: 3px;
+    top: 0;
+    background: #245d91;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+}
+
+.place-icon::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    left: 10px;
+    top: 7px;
+    background: white;
+    border-radius: 50%;
+}
+
+/* 日付表示 */
+
+#date {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+/* 曜日ボタン */
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 5px;
+    margin: 20px 0;
+}
+
+.days button {
+    border: 2px solid #d1dce6;
+    background: white;
+    border-radius: 10px;
+    min-height: 56px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #243247;
+}
+
+.days button.active {
+    background: #245d91;
+    color: white;
+    border-color: #245d91;
+}
+
+/* 今日の予定 */
+
+.today {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+.reset {
+    padding: 14px 18px;
+    border: 2px solid #245d91;
+    color: #245d91;
+    background: white;
+    border-radius: 10px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    min-height: 56px;
+}
+
+/* サークルの予定カード */
+
+.item {
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    margin: 18px 0;
+    box-shadow: 0 3px 9px #0001;
+}
+
+.item h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 0 18px;
+}
+
+.item p {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin: 12px 0;
+    line-height: 1.5;
+}
+
+/* 注意書き */
+
+.note {
+    font-size: 1rem;
+    color: #566579;
+    margin-top: 24px;
+}
+
+/* ボタン共通 */
+
+button {
+    cursor: pointer;
+}
+
+button:focus-visible {
+    outline: 3px solid orange;
+    outline-offset: 2px;
+}
+
+/* スマートフォン向け */
+
+@media (max-width: 420px) {
+    .wrap {
+        padding: 12px;
+    }
+
+    #date {
+        font-size: 22px;
+    }
+
+    .item {
+        padding: 18px;
+    }
+
+    .item h3 {
+        font-size: 1.85rem;
+    }
+
+    .item p {
+        font-size: 1.35rem;
+    }
+
+    .reset {
+        font-size: 1rem;
+        padding: 10px;
+    }
+}
+</style>
+
+
+</head>
+<body>
+<!--
+<header><h1>サークル早見表</h1><p>町づくりセンター</p></header> -->
+<header>
+<svg
+   version="1.1"
+   id="svg1"
+   width="1200"
+   height="300"
+   viewBox="0 0 1200 300"
+   sodipodi:docname="hayamihyou_header.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.39954733"
+     inkscape:cx="463.02399"
+     inkscape:cy="304.09414"
+     inkscape:window-width="1691"
+     inkscape:window-height="961"
+     inkscape:window-x="213"
+     inkscape:window-y="32"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g1" />
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="Image"
+     id="g1">
+    <rect
+       style="fill:#215c93;stroke-width:4.797;stroke-linejoin:round;stroke-miterlimit:0;fill-opacity:1"
+       id="rect11"
+       width="1270.6947"
+       height="359.26328"
+       x="-21.237238"
+       y="-23.007008" />
+    <ellipse
+       style="fill:#4981b8;fill-opacity:0.8025;stroke-width:4.04747;stroke-linejoin:round;stroke-miterlimit:0"
+       id="path15"
+       cx="934.80792"
+       cy="62.375278"
+       rx="33.788239"
+       ry="32.732357" />
+    <path
+       d="m 257.2012,93.643948 h 16.08912 V 77.1526 h 6.83787 v 16.491348 h 32.9827 V 77.1526 h 7.2401 v 16.491348 h 16.08912 v 6.335091 h -16.08912 v 5.932861 q 0,22.82644 -9.65347,32.9827 -9.65347,10.0557 -33.38492,12.36851 l -1.20669,-6.43565 q 21.41864,-2.31281 29.16153,-10.45793 7.84345,-8.24567 7.84345,-28.45763 v -5.932861 h -32.9827 v 20.815301 h -6.83787 V 99.979039 H 257.2012 Z m 112.02049,24.334792 -9.85458,-5.22896 2.71504,-5.73175 6.93843,3.72061 q 1.70947,0.80445 2.8156,1.00557 l 2.51392,0.10056 h 60.23364 v 6.93843 h -61.44032 q -0.60334,0 -2.01114,-0.20112 z M 521.66611,92.437264 H 485.56614 Q 480.13606,108.32527 467.36533,120.191 l -4.9273,-4.42451 Q 479.43217,99.878482 482.1472,76.549258 l 6.83788,0.402228 q -0.40223,3.318381 -1.60891,9.05013 h 41.6306 v 1.608912 q 0,30.468772 -14.37965,45.451762 -14.37966,14.98299 -45.854,17.69803 l -1.10612,-6.43564 q 27.85429,-2.51393 40.52447,-14.58077 12.56962,-11.96628 13.47464,-37.306646 z m 54.60244,-11.664612 h 7.34066 v 18.10026 q 0,17.597478 -2.01114,27.954848 -1.91058,9.85458 -6.43565,15.28466 -4.12284,5.12841 -12.56962,9.15069 l -3.72061,-6.03342 q 7.44122,-3.41894 10.86015,-7.84345 3.31838,-4.22339 5.02785,-13.07241 1.70947,-8.6479 1.50836,-25.440918 z m 31.07211,62.848128 q 11.56406,-1.81003 18.30138,-10.55849 6.93843,-8.84901 8.24567,-23.42978 l 6.73732,0.80446 q -1.60891,18.7036 -12.1674,29.56375 -10.45793,10.7596 -26.94927,10.7596 H 600 V 80.772652 h 7.34066 z m 65.36206,-42.73673 v 12.36851 h 52.69187 v -12.36851 z m 0,-5.530633 h 52.69187 V 83.487691 h -52.69187 z m -7.24011,-17.798589 h 67.17208 V 119.18543 H 702.6687 v 11.06127 h 37.30665 v 6.33509 H 702.6687 v 20.21195 h -7.2401 v -20.21195 h -37.30665 v -6.33509 h 37.30665 v -11.06127 h -22.72588 -7.24011 z m 110.21048,35.295512 v 9.75402 h 47.86513 v -9.75402 z m 0,-14.882441 v 9.351801 h 47.86513 v -9.351801 z m 0,-5.530635 h 47.86513 v -9.351801 h -47.86513 z m 39.41835,55.708576 q 1.00557,0.10056 4.62562,0.10056 3.92172,0 5.02785,-0.10056 0.40223,0 0.90501,0 0.60334,-0.10056 1.00557,-0.10056 0.40223,-0.10055 0.60334,-0.10055 0.90502,-0.20112 1.70947,-0.7039 0.90502,-0.60334 1.20669,-1.30724 0.10055,-0.30167 0.7039,-2.8156 0.40222,-2.81559 0.50278,-4.32395 0.40223,-5.53063 0.40223,-6.43565 l 6.93843,0.7039 q -0.30167,5.43008 -0.60334,8.34623 -0.30167,3.11727 -0.90501,5.63119 -0.60335,2.51393 -1.4078,3.82117 -0.60334,1.00557 -2.41337,1.91058 -1.91058,1.00557 -3.41894,1.10613 -1.70947,0.20111 -5.02785,0.30167 -5.02785,0.20112 -5.8323,0.20112 -0.50279,0 -5.53064,-0.20112 -6.13397,-0.30167 -7.74289,-1.30724 -1.60891,-1.00557 -1.60891,-4.92729 v -19.20639 h -10.65904 q -0.7039,9.55292 -8.84902,16.59191 -7.944,6.83787 -22.62532,10.35737 l -2.01114,-6.13398 q 24.63646,-5.53064 26.24538,-20.8153 h -10.65905 -7.13954 V 77.052043 h 62.14422 v 51.686297 h -19.4075 v 16.08912 q 0,2.01114 0.60334,2.61448 0.50279,0.50279 3.21783,0.7039 z m 44.74784,-10.35737 -2.31281,-5.8323 q 20.91585,-6.63677 33.08325,-15.88801 h -30.66988 v -5.93286 h 36.60274 v -8.64791 h -28.35707 v -5.631188 h 28.35707 v -8.446788 h -32.98269 v -5.932863 h 32.98269 v -9.452357 h 7.24011 v 9.452357 h 32.98269 v 5.932863 h -32.98269 v 8.446788 h 28.35707 v 5.631188 h -28.35707 v 8.64791 h 36.60275 v 5.93286 h -34.3905 q 3.82117,9.15069 9.95514,15.88801 8.54735,-6.23454 15.88801,-14.68133 l 4.92729,4.02228 q -6.5362,7.74289 -16.29023,15.18411 8.94957,8.04456 22.32365,13.07241 l -3.41893,5.63119 q -13.97743,-4.92729 -24.63647,-15.18411 -10.45793,-9.95514 -15.48578,-23.63089 -5.63119,5.43008 -12.67018,9.75403 v 20.21196 q 10.86016,-1.4078 23.42978,-4.02228 l 1.10613,5.93286 q -24.03312,4.92729 -46.96012,6.83787 l -0.50279,-6.13397 q 8.64791,-0.7039 15.6869,-1.60891 v -17.29581 q -9.05013,4.42451 -19.50806,7.74289 z"
+       id="text11"
+       style="font-size:100.557px;line-height:1.25;font-family:'Ricty Diminished Discord';-inkscape-font-specification:'Ricty Diminished Discord, Normal';letter-spacing:0px;word-spacing:0px;fill:#ffffff;stroke-width:1.04747"
+       aria-label="サークル早見表" />
+    <path
+       d="m 428.80561,224.49558 h 5.372 v -10.23014 h -5.372 z m -8.36163,-10.23014 v 10.23014 h 5.41871 v -10.23014 z m 5.41871,-12.1921 h -5.41871 v 9.52946 h 5.41871 z m 2.94292,0 v 9.52946 h 5.372 v -9.52946 z m -11.63154,-2.80278 h 20.13331 v 3.03635 h 17.23709 v 2.8962 h -4.62458 v 24.89803 q 0,3.64362 -0.84084,4.48445 -0.84083,0.84084 -4.48445,0.84084 -1.21453,0 -6.30625,-0.18686 l -0.0934,-2.8962 q 5.83913,0.23356 5.93255,0.23356 1.91524,0 2.19552,-0.32699 0.28027,-0.32699 0.28027,-2.1488 v -24.89803 h -9.29588 v 24.38419 h -3.12977 v -2.42907 h -13.73363 v 3.26991 h -3.26991 z m 73.24599,-0.7474 2.33565,-1.26126 q 1.68167,2.75607 3.55019,6.35297 l -2.33565,1.16783 q -1.30797,-2.5225 -3.55019,-6.25954 z m 5.7457,-0.74741 2.38236,-1.21454 q 2.00866,3.36334 3.69033,6.44639 l -2.42908,1.21454 q -1.91523,-3.55019 -3.64361,-6.44639 z m -32.55896,9.15575 q 12.47237,-3.26991 18.91876,-3.26991 15.97585,0 16.02256,13.35991 0,7.8945 -6.8201,12.05196 -6.77338,4.11074 -20.22673,4.11074 l -0.23356,-3.08306 q 23.82363,0 23.82363,-12.75264 0,-5.32529 -3.17649,-7.94122 -3.12977,-2.56921 -9.66959,-2.56921 -5.7457,0 -17.93779,3.17648 z m 74.50723,-6.11941 q -8.78204,7.00695 -16.02256,11.77168 -2.47579,1.54153 -3.22319,2.28894 -0.65399,0.65398 -0.65399,1.30796 0.0934,0.74741 0.60727,1.26125 0.56056,0.56056 2.80278,2.10209 9.52946,6.53982 17.79766,13.82704 l -2.28894,2.28894 q -8.9689,-7.75436 -17.42395,-13.54677 -3.26991,-2.19551 -4.2976,-3.31662 -0.88754,-0.93426 -0.88754,-2.61593 0,-1.63495 0.93426,-2.66264 0.79412,-0.88755 4.57787,-3.41005 7.56751,-4.99829 15.97585,-11.67825 z m 24.29077,-0.65398 h 3.17648 v 11.58482 h 0.0934 q 2.19551,-4.99829 5.83912,-7.89449 3.69033,-2.89621 7.84779,-2.8495 4.90486,-0.0467 7.61422,3.50348 2.70935,3.55019 2.70935,10.13672 0,10.13672 -5.65227,14.80802 -5.69899,4.71802 -17.70423,4.71802 l -0.14014,-2.98964 q 10.60385,0.0467 15.41529,-3.87718 4.76473,-3.92389 4.71801,-12.65922 0,-5.23186 -1.86852,-7.80107 -1.91523,-2.61593 -5.37199,-2.66264 -4.76473,0 -8.87547,5.09172 -4.11075,5.13843 -4.62459,12.33223 h -3.17648 z m 76.42246,31.67142 q -7.94121,1.07439 -15.88242,1.07439 -6.1194,0 -7.98792,-1.86852 -1.82181,-1.8218 -1.91523,-8.03463 v -11.07098 l -9.57617,1.63495 -0.46713,-3.03634 10.0433,-1.68167 v -9.52945 h 3.26991 v 8.96889 l 23.02951,-3.87718 0.46713,3.08306 q -1.30797,4.15746 -4.20417,8.03464 -2.8495,3.83046 -6.72668,6.35297 l -1.96194,-2.42908 q 3.08306,-2.10208 5.51213,-5.09172 2.38237,-2.94292 3.83047,-6.30625 l -19.94645,3.36333 v 11.02427 q 0,2.89621 0.18685,4.06403 0.23356,1.35468 1.0744,2.19551 0.84083,0.79413 2.1488,1.02769 1.16782,0.18685 3.92389,0.18685 7.52079,0 15.04158,-1.0744 z m 14.85473,-27.60739 1.54153,-2.84949 q 7.14709,3.5969 12.98622,7.1938 l -1.68167,2.89621 q -5.372,-3.41005 -12.84608,-7.24052 z m 32.83924,1.68167 q -4.29759,24.47761 -31.39113,26.85998 l -0.51385,-3.17649 q 12.51909,-1.21454 19.57275,-7.14709 7.10038,-5.97926 9.24918,-17.2371 z m 15.55544,28.0278 -0.46713,-2.98963 q 8.03464,-0.79412 13.12636,-3.08306 5.13843,-2.33565 7.98792,-6.58653 -7.1938,-3.69033 -14.20075,-6.72667 l 1.49482,-2.8495 q 6.96023,2.98963 14.29417,6.72667 2.19551,-4.99829 2.38237,-12.42565 h -17.37724 q -2.47579,7.66093 -8.31491,13.17306 l -2.24223,-2.05537 q 3.64362,-3.45676 5.97927,-8.17478 2.38236,-4.81143 2.84949,-10.04329 l 3.12977,0.14014 q -0.0934,1.16782 -0.65398,3.9706 h 20.08659 v 1.26125 q 0,14.3409 -6.72667,21.39456 -6.72668,7.10038 -21.34785,8.2682 z m 46.94655,-15.64885 -4.57787,-2.42908 1.26125,-2.66264 3.2232,1.72838 q 0.79412,0.3737 1.30796,0.46713 l 1.16783,0.0467 h 27.98108 v 3.2232 h -28.54164 q -0.28028,0 -0.93426,-0.0934 z"
+       id="text12"
+       style="font-size:46.713px;line-height:1.25;font-family:'Ricty Diminished Discord';-inkscape-font-specification:'Ricty Diminished Discord, Normal';letter-spacing:0px;word-spacing:0px;fill:#ffffff;stroke-width:0.486594"
+       aria-label="町づくりセンター" />
+    <ellipse
+       style="fill:#5083b2;fill-opacity:1;stroke-width:4.797;stroke-linejoin:round;stroke-miterlimit:0"
+       id="path12"
+       cx="116.80481"
+       cy="154.85484"
+       rx="88.488487"
+       ry="84.064064" />
+    <ellipse
+       style="fill:#548ac2;fill-opacity:0.70499998;stroke-width:4.797;stroke-linejoin:round;stroke-miterlimit:0"
+       id="path13"
+       cx="180.20393"
+       cy="217.7464"
+       rx="52.559479"
+       ry="55.062313" />
+    <circle
+       style="fill:#4981b8;fill-opacity:0.85000002;stroke-width:4.797;stroke-linejoin:round;stroke-miterlimit:0"
+       id="path14"
+       cx="240.27191"
+       cy="57.565147"
+       r="32.536819" />
+    <ellipse
+       style="fill:#4981b8;fill-opacity:0.8025;stroke-width:4.67071;stroke-linejoin:round;stroke-miterlimit:0"
+       id="path16"
+       cx="1082.475"
+       cy="111.88258"
+       rx="98.861877"
+       ry="93.349686" />
+    <ellipse
+       style="fill:#4981b8;fill-opacity:0.50999999;stroke-width:3.98981;stroke-linejoin:round;stroke-miterlimit:0"
+       id="path17"
+       cx="1024.2474"
+       cy="211.48932"
+       rx="78.176704"
+       ry="73.833549" />
+  </g>
+</svg>
+
+</header>
+
+<main class="wrap">
+  <div id="date"></div>
+  <nav class="days" id="days" aria-label="曜日を選ぶ"></nav>
+  <div class="today"><h2 id="heading"></h2><button class="reset" id="reset">今日に戻る</button></div>
+  <section id="schedule" aria-live="polite"></section>
+  <p class="note">※ 掲載内容は動作確認用の架空のサンプルです。</p>
+</main>
+<script>
+const names = ['日', '月', '火', '水', '木', '金', '土'];
+const data = {
+    1: [['09:30 - 11:30', '健康体操', '多目的ホール'], ['13:30 - 15:30', '書道教室', '研修室']],
+    2: [['09:00 - 11:00', 'グラウンドゴルフ', '運動広場'], ['13:00 - 15:00', '手芸サークル', '和室']],
+    3: [['10:00 - 12:00', 'コーラス', '多目的ホール'], ['13:30 - 15:00', '囲碁・将棋', '研修室']],
+    4: [['09:30 - 11:30', '絵手紙教室', '研修室'], ['14:00 - 16:00', '太極拳', '多目的ホール']],
+    5: [['10:00 - 12:00', '料理教室', '調理室'], ['13:30 - 15:30', '俳句の会', '和室']],
+    6: [['09:30 - 11:30', '写真クラブ', '研修室'], ['13:00 - 15:00', '民謡サークル', '多目的ホール']]
+};
+const now = new Date();
+let selected = now.getDay();
+const dateBox = document.getElementById('date');
+const greeting = document.createElement('div');
+greeting.textContent = `今日は${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日（${names[now.getDay()]}）です。`;
+const message = document.createElement('div');
+message.textContent = '本日も楽しくサークル活動をしましょう！';
+dateBox.append(greeting, message);
+
+function show(day) {
+    selected = day;
+    document.getElementById('heading').textContent = names[day] + '曜日の予定';
+    const days = document.getElementById('days');
+    days.replaceChildren();
+    for (let d = 1; d <= 6; d++) {
+        const b = document.createElement('button');
+        b.textContent = names[d];
+        b.className = d === day ? 'active' : '';
+        b.setAttribute('aria-pressed', String(d === day));
+        b.onclick = () => show(d);
+        days.appendChild(b);
+    }
+    const section = document.getElementById('schedule');
+    section.replaceChildren();
+    if (!data[day]) {
+        const p = document.createElement('p');
+        p.textContent = '本日の予定はありません。';
+        section.appendChild(p);
+        return;
+    }
+    for (const [time, name, room] of data[day]) {
+        const card = document.createElement('article');
+        card.className = 'item';
+        const h = document.createElement('h3');
+        h.textContent = name;
+        card.appendChild(h);
+        for (const [label, value, iconClass] of [
+            ['時間：', time, 'clock-icon'],
+            ['会場：', room, 'place-icon']
+        ]) {
+            const p = document.createElement('p');
+            p.className = 'detail';
+            const icon = document.createElement('span');
+            icon.className = 'css-icon ' + iconClass;
+            icon.setAttribute('aria-hidden', 'true');
+            const text = document.createElement('span');
+            text.textContent = label + value;
+            p.append(icon, text);
+            card.appendChild(p);
+        }
+        section.appendChild(card);
+    }
+}
+document.getElementById('reset').onclick = () => show(new Date().getDay());
+show(selected);
+</script>
+</body>
+</html>
