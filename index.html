@@ -204,6 +204,17 @@ h2 {
     line-height: 1.5;
 }
 
+/* サークル時間割：開催状況による色分け */
+.item.status-current {
+    background: #fce4ed;
+}
+.item.status-next {
+    background: #FFF0B8;
+}
+.item.status-other {
+    background: #E6F1E2;
+}
+
 /* 注意書き */
 
 .note {
@@ -250,6 +261,226 @@ button:focus-visible {
         font-size: 1rem;
         padding: 10px;
     }
+}
+
+
+
+/* 画面切り替え */
+.view-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.view-tabs button {
+    padding: 14px 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: 2px solid #245d91;
+    border-radius: 10px;
+    background: white;
+    color: #245d91;
+}
+
+.view-tabs button.active {
+    background: #245d91;
+    color: white;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* 月間カレンダー */
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.calendar-nav button {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #245d91;
+    border-radius: 8px;
+    background: white;
+    color: #245d91;
+}
+
+#calendar-month {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+}
+
+.calendar-weekday {
+    text-align: center;
+    font-weight: bold;
+    padding: 8px 0;
+}
+
+.calendar-day {
+    position: relative;
+    min-width: 0;
+    min-height: 52px;
+    border: 1px solid #d1dce6;
+    border-radius: 8px;
+    background: white;
+    font-size: 1rem;
+    color: #243247;
+}
+
+.calendar-day.today-date {
+    background: #ffe0ec;
+    border-color: #db3982;
+}
+
+.calendar-day.selected-date {
+    outline: 3px solid #245d91;
+    outline-offset: -3px;
+}
+
+.calendar-day.has-event::after {
+    content: "";
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #db3982;
+    bottom: 5px;
+    left: calc(50% - 3.5px);
+}
+
+.calendar-weekday:first-child,
+.calendar-day.sunday {
+    color: #c32643;
+}
+
+.calendar-weekday:last-child,
+.calendar-day.saturday {
+    color: #245d91;
+}
+
+#calendar-details {
+    margin-top: 24px;
+}
+
+#calendar-details h3 {
+    font-size: 1.3rem;
+}
+
+#calendar-details li {
+    font-size: 1.15rem;
+    margin: 12px 0;
+    line-height: 1.5;
+}
+
+/* 講座・行事：一覧とカレンダー */
+.events-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+.events-list-panel, .events-calendar-panel {
+    min-width: 0;
+}
+#events-month-title { font-size: 1.35rem; margin: 0 0 14px; }
+.event-entry {
+    background: white;
+    border: 1px solid #d1dce6;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+.event-entry.highlighted { border: 3px solid #db3982; padding: 12px; }
+.event-entry h3 { margin: 6px 0; font-size: 1.2rem; }
+.event-entry p { margin: 6px 0; line-height: 1.5; }
+.events-empty { line-height: 1.6; }
+@media (max-width: 600px) {
+    .events-layout { grid-template-columns: 1fr; }
+    .events-calendar-panel { grid-row: 2; }
+    .events-list-panel { grid-row: 1; }
+    .view-tabs button { font-size: 1rem; }
+}
+
+/* サークルの色分け案内 */
+.status-guide {
+    background: white;
+    border: 1px solid #d1dce6;
+    border-radius: 14px;
+    padding: 18px;
+    margin-top: 28px;
+    box-shadow: 0 3px 9px #0001;
+}
+
+.status-guide h3 {
+    font-size: 1.25rem;
+    margin: 0 0 14px;
+}
+
+.status-guide div {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 12px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.status-color {
+    width: 12px;
+    height: 32px;
+    border-radius: 5px;
+    flex-shrink: 0;
+}
+
+.status-color.running { background:#fce4ed; }
+.status-color.next { background: #FFF0B8; }
+.status-color.other { background: #e6f1e2; }
+
+/* 更新ボタン */
+.refresh-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+/* CSSで描く更新アイコン */
+/* 更新アイコン */
+.refresh-btn::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid #245d91;
+    border-right-color: transparent;
+    border-radius: 50%;
+    transform: rotate(-35deg);
+}
+
+/* 矢印の先端 */
+.refresh-btn::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 6px solid #245d91;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    left: 28px;
+    top: 15px;
+    transform: rotate(30deg);
 }
 </style>
 
@@ -359,16 +590,53 @@ button:focus-visible {
 </header>
 
 <main class="wrap">
+  <nav class="view-tabs" aria-label="表示を切り替える">
+    <button id="tab-schedule" class="active"
+            aria-pressed="true">サークル時間割</button>
+    <button id="tab-calendar"
+            aria-pressed="false">講座・行事</button>
+</nav>
+<div id="schedule-view">
   <div id="date"></div>
+  <button class="reset refresh-btn" onclick="location.reload()">更新</button>
   <nav class="days" id="days" aria-label="曜日を選ぶ"></nav>
   <div class="today"><h2 id="heading"></h2><button class="reset" id="reset">今日に戻る</button></div>
   <section id="schedule" aria-live="polite"></section>
-  <p class="note">※ 掲載内容は動作確認用の架空のサンプルです。</p>
+  <div class="status-guide">
+  <h3>サークルの活動状況</h3>
+  <div><span class="status-color running"></span>現在活動中</div>
+  <div><span class="status-color next"></span>次に始まるサークル</div>
+  <div><span class="status-color other"></span>その他のサークル</div>
+</div>
+
+
+
+
+</div>
+
+<section id="calendar-view" hidden>
+    <div class="events-layout">
+        <div class="events-list-panel">
+            <h2 id="events-month-title"></h2>
+            <div id="events-month-list" aria-live="polite"></div>
+        </div>
+        <div class="events-calendar-panel">
+            <div class="calendar-nav">
+                <button id="prev-month">前月</button>
+                <div id="calendar-month"></div>
+                <button id="next-month">翌月</button>
+            </div>
+            <div id="calendar-grid" class="calendar-grid"></div>
+            <section id="calendar-details" aria-live="polite"></section>
+        </div>
+    </div>
+</section>
+
 </main>
 <script>
 const names = ['日', '月', '火', '水', '木', '金', '土'];
 const data = {
-    1: [['09:30 - 11:30', '健康体操', '多目的ホール'], ['13:30 - 15:30', '書道教室', '研修室']],
+    1: [['09:30 - 11:30', '健康体操', '多目的ホール'], ['13:30 - 15:30', '書道教室', '研修室'], ['18:00 - 19:00', '夕方の音楽サークル', '多目的ホール']],
     2: [['09:00 - 11:00', 'グラウンドゴルフ', '運動広場'], ['13:00 - 15:00', '手芸サークル', '和室']],
     3: [['10:00 - 12:00', 'コーラス', '多目的ホール'], ['13:30 - 15:00', '囲碁・将棋', '研修室']],
     4: [['09:30 - 11:30', '絵手紙教室', '研修室'], ['14:00 - 16:00', '太極拳', '多目的ホール']],
@@ -379,10 +647,16 @@ const now = new Date();
 let selected = now.getDay();
 const dateBox = document.getElementById('date');
 const greeting = document.createElement('div');
-greeting.textContent = `今日は${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日（${names[now.getDay()]}）です。`;
+greeting.textContent = `現在は${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日${now.getHours()}時${String(now.getMinutes()).padStart(2, '0')}分です。`;
 const message = document.createElement('div');
 message.textContent = '本日も楽しくサークル活動をしましょう！';
 dateBox.append(greeting, message);
+
+/* 時刻を午前0時からの分数に変換 */
+function timeToMinutes(value) {
+    const [hours, minutes] = value.trim().split(':').map(Number);
+    return hours * 60 + minutes;
+}
 
 function show(day) {
     selected = day;
@@ -405,9 +679,28 @@ function show(day) {
         section.appendChild(p);
         return;
     }
+    const today = new Date();
+    const isToday = day === today.getDay();
+    const currentMinutes = today.getHours() * 60 + today.getMinutes();
+    const nextStart = isToday
+        ? Math.min(Infinity, ...data[day]
+            .map(([time]) => timeToMinutes(time.split('-')[0]))
+            .filter(start => start > currentMinutes))
+        : Infinity;
+
     for (const [time, name, room] of data[day]) {
         const card = document.createElement('article');
         card.className = 'item';
+        const [startText, endText] = time.split('-');
+        const start = timeToMinutes(startText);
+        const end = timeToMinutes(endText);
+        if (isToday && start <= currentMinutes && currentMinutes < end) {
+            card.classList.add('status-current');
+        } else if (isToday && start === nextStart) {
+            card.classList.add('status-next');
+        } else {
+            card.classList.add('status-other');
+        }
         const h = document.createElement('h3');
         h.textContent = name;
         card.appendChild(h);
@@ -430,6 +723,196 @@ function show(day) {
 }
 document.getElementById('reset').onclick = () => show(new Date().getDay());
 show(selected);
+
+
+/* カレンダーの開催予定
+   形式：日付: [['時間', 'サークル名', '会場']]
+   時間割とは独立して管理する
+*/
+const calendarEvents = {
+    '2026-10-25': [
+        ['10:00 - 15:00', '秋祭り', '町づくりセンター']
+    ]
+};
+
+let calendarYear = now.getFullYear();
+let calendarMonth = now.getMonth();
+let calendarSelected = null;
+
+const calendarGrid = document.getElementById('calendar-grid');
+const calendarDetails = document.getElementById('calendar-details');
+
+function dateKey(year, month, day) {
+    return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+}
+
+function showCalendarDetails(day) {
+    calendarSelected = day;
+    const key = dateKey(calendarYear, calendarMonth, day);
+    const events = calendarEvents[key] || [];
+
+    calendarDetails.replaceChildren();
+
+    const heading = document.createElement('h3');
+    heading.textContent =
+        `${calendarMonth + 1}月${day}日の開催予定`;
+    calendarDetails.appendChild(heading);
+
+    if (events.length === 0) {
+        const p = document.createElement('p');
+        p.textContent = '登録された予定はありません。';
+        calendarDetails.appendChild(p);
+        return;
+    }
+
+    const list = document.createElement('ul');
+    for (const [time, name, room] of events) {
+        const li = document.createElement('li');
+        li.textContent = `${time}　${name}（${room}）`;
+        list.appendChild(li);
+    }
+    calendarDetails.appendChild(list);
+}
+
+function renderMonthEvents() {
+    document.getElementById('events-month-title').textContent =
+        `${calendarYear}年${calendarMonth + 1}月の講座・行事`;
+    const list = document.getElementById('events-month-list');
+    list.replaceChildren();
+    const prefix = `${calendarYear}-${String(calendarMonth + 1).padStart(2, '0')}-`;
+    const dates = Object.keys(calendarEvents)
+        .filter(key => key.startsWith(prefix) && calendarEvents[key].length)
+        .sort();
+    if (!dates.length) {
+        const p = document.createElement('p');
+        p.className = 'events-empty';
+        p.textContent = 'この月に登録された講座・行事はありません。';
+        list.appendChild(p);
+        return;
+    }
+    for (const key of dates) {
+        const day = Number(key.slice(-2));
+        const weekday = names[new Date(calendarYear, calendarMonth, day).getDay()];
+        for (const [time, name, room] of calendarEvents[key]) {
+            const article = document.createElement('article');
+            article.className = 'event-entry';
+            if (calendarSelected === day) article.classList.add('highlighted');
+            const date = document.createElement('strong');
+            date.textContent = `${calendarMonth + 1}月${day}日（${weekday}）`;
+            const title = document.createElement('h3');
+            title.textContent = name;
+            const detail = document.createElement('p');
+            detail.textContent = `${time}　${room}`;
+            article.append(date, title, detail);
+            list.appendChild(article);
+        }
+    }
+}
+
+function renderCalendar() {
+    document.getElementById('calendar-month').textContent =
+        `${calendarYear}年${calendarMonth + 1}月`;
+
+    calendarGrid.replaceChildren();
+    renderMonthEvents();
+
+    for (const name of names) {
+        const label = document.createElement('div');
+        label.className = 'calendar-weekday';
+        label.textContent = name;
+        calendarGrid.appendChild(label);
+    }
+
+    const firstDay =
+        new Date(calendarYear, calendarMonth, 1).getDay();
+    const daysInMonth =
+        new Date(calendarYear, calendarMonth + 1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+        const blank = document.createElement('div');
+        calendarGrid.appendChild(blank);
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const button = document.createElement('button');
+        button.className = 'calendar-day';
+        button.textContent = day;
+
+        const weekday =
+            new Date(calendarYear, calendarMonth, day).getDay();
+
+        if (weekday === 0) button.classList.add('sunday');
+        if (weekday === 6) button.classList.add('saturday');
+
+        const today = new Date();
+        if (calendarYear === today.getFullYear() &&
+            calendarMonth === today.getMonth() &&
+            day === today.getDate()) {
+            button.classList.add('today-date');
+        }
+
+        const key = dateKey(calendarYear, calendarMonth, day);
+        if (calendarEvents[key]?.length) {
+            button.classList.add('has-event');
+        }
+
+        if (day === calendarSelected) {
+            button.classList.add('selected-date');
+        }
+
+        button.setAttribute('aria-label',
+            `${calendarMonth + 1}月${day}日`);
+
+        button.onclick = () => {
+            showCalendarDetails(day);
+            renderCalendar();
+        };
+
+        calendarGrid.appendChild(button);
+    }
+}
+
+function changeMonth(amount) {
+    const date = new Date(
+        calendarYear, calendarMonth + amount, 1
+    );
+    calendarYear = date.getFullYear();
+    calendarMonth = date.getMonth();
+    calendarSelected = null;
+    calendarDetails.replaceChildren();
+    renderCalendar();
+}
+
+document.getElementById('prev-month').onclick =
+    () => changeMonth(-1);
+
+document.getElementById('next-month').onclick =
+    () => changeMonth(1);
+
+function switchView(view) {
+    const isCalendar = view === 'calendar';
+
+    document.getElementById('schedule-view').hidden = isCalendar;
+    document.getElementById('calendar-view').hidden = !isCalendar;
+
+    const scheduleTab = document.getElementById('tab-schedule');
+    const calendarTab = document.getElementById('tab-calendar');
+
+    scheduleTab.classList.toggle('active', !isCalendar);
+    calendarTab.classList.toggle('active', isCalendar);
+
+    scheduleTab.setAttribute('aria-pressed', String(!isCalendar));
+    calendarTab.setAttribute('aria-pressed', String(isCalendar));
+
+    if (isCalendar) renderCalendar();
+}
+
+document.getElementById('tab-schedule').onclick =
+    () => switchView('schedule');
+
+document.getElementById('tab-calendar').onclick =
+    () => switchView('calendar');
+
 </script>
 </body>
 </html>
