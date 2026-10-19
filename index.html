@@ -147,8 +147,8 @@ header svg {
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 20px;
-    right: 20px;
+    bottom: 12px;
+    right: 12px;
     width: 56px;
     height: 56px;
     padding: 0;
@@ -164,10 +164,7 @@ header svg {
 }
 
 @media (max-width: 600px) {
-    .reload-icon {
-        position: static;
-        margin: 0 16px 16px auto;
-    }
+ 
 
     .date-box #date {
         margin-bottom: 0;
@@ -714,7 +711,9 @@ const greeting = document.createElement('div');
 
 const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 const weekday = weekdays[now.getDay()];
-greeting.textContent = `現在は${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日(${weekday})${now.getHours()}時${String(now.getMinutes()).padStart(2, '0')}分です。`;
+const westernYear = now.getFullYear();
+const reiwaYear = westernYear - 2018;
+greeting.textContent = `現在は令和${reiwaYear}(${westernYear})年${now.getMonth() + 1}月${now.getDate()}日(${weekday})${now.getHours()}時${String(now.getMinutes()).padStart(2, '0')}分です。`;
 const message = document.createElement('div');
 message.textContent = '本日も楽しくサークル活動をしましょう！';
 dateBox.append(greeting, message);
