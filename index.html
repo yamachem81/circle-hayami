@@ -123,13 +123,68 @@ header svg {
     border-radius: 50%;
 }
 
-/* 日付表示 */
-
+/* 現在日時と挨拶：大きく読みやすく */
 #date {
-    font-size: 24px;
-    font-weight: bold;
+    width: 100%;
+    background: white;
+    border: 2px solid #245d91;
+    border-radius: 14px;
+    padding: 20px 16px;
     margin-bottom: 16px;
+
+    font-size: 32px;
+    font-weight: bold;
     line-height: 1.6;
+    color: #243247;
+}
+
+.date-box {
+    position: relative;
+}
+
+.reload-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.reload-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 600px) {
+    .reload-icon {
+        position: static;
+        margin: 0 16px 16px auto;
+    }
+
+    .date-box #date {
+        margin-bottom: 0;
+        border-bottom: none;
+        border-radius: 14px 14px 0 0;
+    }
+
+    .date-box {
+        background: white;
+        border: 2px solid #245d91;
+        border-radius: 14px;
+        margin-bottom: 16px;
+    }
+
+    .date-box #date {
+        border: none;
+    }
 }
 
 /* 曜日ボタン */
@@ -239,10 +294,6 @@ button:focus-visible {
 @media (max-width: 420px) {
     .wrap {
         padding: 12px;
-    }
-
-    #date {
-        font-size: 22px;
     }
 
     .item {
@@ -597,8 +648,21 @@ button:focus-visible {
             aria-pressed="false">講座・行事</button>
 </nav>
 <div id="schedule-view">
-  <div id="date"></div>
-  <button class="reset refresh-btn" onclick="location.reload()">更新</button>
+ <div class="date-box">
+    <div id="date"></div>
+
+    <button class="reload-icon"
+            onclick="location.reload()"
+            aria-label="更新"
+            title="更新">
+        <svg width="64" height="64" viewBox="0 0 64 64"
+             xmlns="http://www.w3.org/2000/svg"
+             aria-hidden="true">
+            <path fill="#245d91"
+                  d="M 26.51911,61.771277 C 21.257985,60.807568 16.042575,58.226727 11.986132,54.579637 3.4968259,46.947019 -0.0554234,35.316042 2.7861065,24.456383 4.2734408,18.772141 6.3008189,15.301756 10.768283,10.792803 17.422386,4.0769034 24.635991,1.3872544 34.390113,1.9852224 c 4.655608,0.285406 9.529196,1.683252 12.59017,3.611118 10.04148,6.3243316 15.19736,15.2945906 15.19736,26.4405006 0,12.870209 -7.758388,23.825498 -20.18547,28.503038 -3.635688,1.36847 -11.366117,1.983688 -15.473063,1.231398 z M 38.467632,51.550869 C 54.115654,46.167164 57.070237,25.171837 43.516554,15.6731 c -1.236739,-0.866728 -1.317329,-1.092623 -0.838837,-2.351158 0.291145,-0.765768 0.440516,-1.481128 0.331941,-1.589702 -0.184552,-0.184558 -9.245627,1.516374 -11.182288,2.099116 -0.483606,0.145514 -0.812414,0.448203 -0.730687,0.672623 0.316039,0.86785 7.923927,9.170255 8.229875,8.981166 0.177956,-0.109983 0.574217,-1.195429 0.880578,-2.412103 0.486852,-1.933461 0.670084,-2.151627 1.45448,-1.731837 2.590072,1.386165 5.364793,5.93143 6.376305,10.445 1.429188,6.377319 -2.417922,13.843959 -8.860145,17.196193 -2.239791,1.165495 -3.143572,1.341648 -6.958249,1.356287 -3.82432,0.01466 -4.735014,-0.155508 -7.132228,-1.332748 -8.725455,-4.284952 -11.796525,-15.104045 -6.633881,-23.370528 1.488178,-2.382891 4.074724,-4.727329 6.368612,-5.772495 1.127245,-0.513611 1.308448,-0.888914 1.308448,-2.710041 0,-1.16262 -0.115854,-2.11386 -0.257453,-2.11386 -0.141599,0 -1.511635,0.63318 -3.044524,1.407057 -3.496309,1.765122 -7.55194,6.004301 -9.254644,9.673473 -1.156812,2.492836 -1.301944,3.394581 -1.313462,8.160859 -0.01208,4.996809 0.08903,5.573574 1.49842,8.547746 0.831253,1.754157 2.207346,3.982054 3.057985,4.950874 1.951508,2.222643 5.818217,4.719124 9.027744,5.828614 3.412264,1.179571 9.104007,1.153977 12.623088,-0.05673 z"/>
+        </svg>
+    </button>
+</div>
   <nav class="days" id="days" aria-label="曜日を選ぶ"></nav>
   <div class="today"><h2 id="heading"></h2><button class="reset" id="reset">今日に戻る</button></div>
   <section id="schedule" aria-live="polite"></section>
@@ -647,7 +711,10 @@ const now = new Date();
 let selected = now.getDay();
 const dateBox = document.getElementById('date');
 const greeting = document.createElement('div');
-greeting.textContent = `現在は${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日${now.getHours()}時${String(now.getMinutes()).padStart(2, '0')}分です。`;
+
+const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+const weekday = weekdays[now.getDay()];
+greeting.textContent = `現在は${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日(${weekday})${now.getHours()}時${String(now.getMinutes()).padStart(2, '0')}分です。`;
 const message = document.createElement('div');
 message.textContent = '本日も楽しくサークル活動をしましょう！';
 dateBox.append(greeting, message);
