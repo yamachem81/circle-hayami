@@ -316,7 +316,7 @@ button:focus-visible {
 /* 画面切り替え */
 .view-tabs {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
     margin-bottom: 20px;
 }
@@ -643,6 +643,8 @@ button:focus-visible {
             aria-pressed="true">サークル時間割</button>
     <button id="tab-calendar"
             aria-pressed="false">講座・行事</button>
+    <button id="tab-library"
+            aria-pressed="false">図書館</button>
 </nav>
 <div id="schedule-view">
  <div class="date-box">
@@ -738,6 +740,9 @@ button:focus-visible {
             <section id="calendar-details" aria-live="polite"></section>
         </div>
     </div>
+<section id="library-view" hidden>
+    <h2>図書館</h2>
+</section>
 </section>
 
 </main>
@@ -1042,22 +1047,33 @@ document.getElementById('next-month').onclick =
     () => changeMonth(1);
 
 function switchView(view) {
+    const isSchedule = view === 'schedule';
     const isCalendar = view === 'calendar';
+    const isLibrary = view === 'library';
 
-    document.getElementById('schedule-view').hidden = isCalendar;
+    document.getElementById('schedule-view').hidden = !isSchedule;
     document.getElementById('calendar-view').hidden = !isCalendar;
+    document.getElementById('library-view').hidden = !isLibrary;
 
-    const scheduleTab = document.getElementById('tab-schedule');
-    const calendarTab = document.getElementById('tab-calendar');
+    for (const name of ['schedule', 'calendar', 'library']) {
+        const tab = document.getElementById('tab-' + name);
+        const active = view === name;
 
-    scheduleTab.classList.toggle('active', !isCalendar);
-    calendarTab.classList.toggle('active', isCalendar);
-
-    scheduleTab.setAttribute('aria-pressed', String(!isCalendar));
-    calendarTab.setAttribute('aria-pressed', String(isCalendar));
+        tab.classList.toggle('active', active);
+        tab.setAttribute('aria-pressed', String(active));
+    }
 
     if (isCalendar) renderCalendar();
 }
+
+document.getElementById('tab-schedule').onclick =
+    () => switchView('schedule');
+
+document.getElementById('tab-calendar').onclick =
+    () => switchView('calendar');
+
+document.getElementById('tab-library').onclick =
+    () => switchView('library');
 
 document.getElementById('tab-schedule').onclick =
     () => switchView('schedule');
